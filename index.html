@@ -1,9 +1,461 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>Contohnya</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Callysta</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --rose: #e8a0a8;
+  --blush: #f5d5d9;
+  --cream: #fdf8f5;
+  --deep: #2c1a1d;
+  --mid: #6b3d44;
+  --accent: #c4687a;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #1a1a1a;
+}
+
+/* FRAME 9:16 */
+.phone {
+  width: 100%;
+  max-width: 390px;
+  aspect-ratio: 9 / 16;
+  position: relative;
+  overflow: hidden;
+  background: var(--cream);
+}
+
+/* ── BACKGROUND LAYERS ── */
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 10%, #fde8ec 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 80%, #f5c6cc 0%, transparent 55%),
+    linear-gradient(175deg, #fdf8f5 30%, #f8eaec 100%);
+}
+
+/* subtle grain */
+.bg-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* ── DECORATIVE RING ── */
+.deco-ring {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  border: 1px solid rgba(200, 100, 120, 0.12);
+  top: -60px;
+  right: -60px;
+  animation: spin 18s linear infinite;
+}
+.deco-ring::after {
+  content: '';
+  position: absolute;
+  inset: 20px;
+  border-radius: 50%;
+  border: 1px dashed rgba(200, 100, 120, 0.1);
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── PETAL DOTS ── */
+.dot {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--rose);
+  opacity: 0;
+  animation: floatDot 4s ease forwards;
+}
+.dot:nth-child(1) { width:6px; height:6px; top:12%; left:8%;  animation-delay:1.8s; }
+.dot:nth-child(2) { width:4px; height:4px; top:18%; left:78%; animation-delay:2.2s; }
+.dot:nth-child(3) { width:5px; height:5px; top:28%; left:15%; animation-delay:2.6s; opacity:0.5; }
+@keyframes floatDot {
+  to { opacity: 0.45; transform: translateY(-6px); }
+}
+
+/* ── HEADER LABEL ── */
+.label {
+  position: absolute;
+  top: 6%;
+  left: 0; right: 0;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--accent);
+  opacity: 0;
+  animation: fadeUp 1s ease 0.3s forwards;
+}
+
+/* ── DIVIDER LINE ── */
+.divider {
+  position: absolute;
+  top: calc(6% + 20px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--rose), transparent);
+  opacity: 0;
+  animation: fadeUp 1s ease 0.5s forwards;
+}
+
+/* ── TEXT BOX ── */
+.text-box {
+  position: absolute;
+  top: 11%;
+  left: 24px;
+  right: 24px;
+}
+
+.text-box p {
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: var(--deep);
+  font-weight: 300;
+  opacity: 0;
+  min-height: 120px;
+  animation: fadeUp 0.8s ease 0.8s forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* blink cursor */
+.cursor {
+  display: inline-block;
+  width: 1.5px;
+  height: 14px;
+  background: var(--accent);
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ── PHOTO ── */
+.photo-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 55%;
+  overflow: hidden;
+}
+
+.photo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  opacity: 0;
+  transform: scale(1.08);
+  animation: imgReveal 1.4s cubic-bezier(.22,1,.36,1) 0.6s forwards;
+}
+
+@keyframes imgReveal {
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* fade gradient over photo */
+.photo-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 55%;
+  background: linear-gradient(
+    to top,
+    var(--cream) 0%,
+    rgba(253,248,245,0.85) 25%,
+    rgba(253,248,245,0.3) 55%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* ── BUTTON ── */
+.btn {
+  position: absolute;
+  bottom: 7%;
+  left: 50%;
+  transform: translate(-50%, 16px);
+  padding: 11px 30px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50px;
+  background: transparent;
+  color: var(--accent);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  opacity: 0;
+  transition: 0.5s cubic-bezier(.22,1,.36,1);
+  white-space: nowrap;
+}
+.btn:hover {
+  background: var(--accent);
+  color: white;
+}
+.btn.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ── OVERLAY ── */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(44, 26, 29, 0.45);
+  backdrop-filter: blur(8px) saturate(0.8);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.5s ease;
+}
+.overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── CARD ── */
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8) translateY(20px);
+  width: 82%;
+  background: var(--cream);
+  border-radius: 24px;
+  padding: 28px 22px 22px;
+  text-align: center;
+  opacity: 0;
+  transition: 0.45s cubic-bezier(.22,1,.36,1);
+  box-shadow:
+    0 0 0 1px rgba(200,100,120,0.1),
+    0 30px 60px rgba(44,26,29,0.25);
+}
+.card.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1) translateY(0);
+}
+
+.card-label {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--rose);
+  margin-bottom: 6px;
+}
+
+.card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--deep);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.card-line {
+  width: 30px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--rose), transparent);
+  margin: 0 auto 14px;
+}
+
+.card p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--mid);
+  font-weight: 300;
+  min-height: 60px;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 14px;
+  margin-top: 16px;
+  display: block;
+}
+
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(200,100,120,0.1);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--accent);
+  transition: background 0.2s;
+}
+.close-btn:hover { background: rgba(200,100,120,0.2); }
+
+/* hearts floating */
+.hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.heart {
+  position: absolute;
+  font-size: 12px;
+  opacity: 0;
+  animation: floatHeart 3s ease forwards;
+}
+@keyframes floatHeart {
+  0%   { opacity: 0;   transform: translateY(0) scale(0.5); }
+  20%  { opacity: 0.7; }
+  100% { opacity: 0;   transform: translateY(-80px) scale(1); }
+}
+</style>
 </head>
 <body>
-  <iframe src="https://sway.office.com/s/IbqU5pOL9a8pO3hZ/embed" width="100%" height="600px"></iframe>
+
+<div class="phone">
+  <div class="bg-layer"></div>
+  <div class="deco-ring"></div>
+
+  <!-- floating dots -->
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+
+  <!-- header -->
+  <div class="label">FOR CALLYSTA</div>
+  <div class="divider"></div>
+
+  <!-- text -->
+  <div class="text-box">
+    <p id="text1"></p>
+  </div>
+
+  <!-- photo -->
+  <div class="photo-wrap">
+    <img src="catme.png" alt="">
+  </div>
+  <div class="photo-fade"></div>
+
+  <!-- button -->
+  <button class="btn" id="btn" onclick="openCard()">Ada yang mau aku bilang 🌸</button>
+
+  <!-- floating hearts container -->
+  <div class="hearts" id="hearts"></div>
+
+  <!-- overlay -->
+  <div class="overlay" id="overlay" onclick="closeCard()"></div>
+
+  <!-- card -->
+  <div class="card" id="card">
+    <div class="close-btn" onclick="closeCard()">✕</div>
+    <div class="card-label">p.s</div>
+    <h3>Cally ✨</h3>
+    <div class="card-line"></div>
+    <p id="text2"></p>
+    <img src="cally.png" alt="">
+  </div>
+</div>
+
+<script>
+const msg1 = `Hellloo Callysta 👋
+Aku Shofy lohh...
+
+Random banget ya kita ketemu di Bumpy 😄
+kayak... yaudah ketemu aja gitu
+
+tapi langsung nyambung aja 😆`;
+
+const msg2 = `Tenang aja, belajar IT itu susah di awal…
+
+Tapi lebih susah lagi kalau aku harus belajar ngelupain kamu 🥲
+
+chuakss 😄`;
+
+function typeWriter(el, text, speed = 38, cb) {
+  el.innerHTML = "";
+  let i = 0;
+  function tick() {
+    if (i < text.length) {
+      const ch = text.charAt(i);
+      el.innerHTML += ch === '\n' ? '<br>' : ch;
+      i++;
+      setTimeout(tick, speed);
+    } else {
+      el.innerHTML += '<span class="cursor"></span>';
+      if (cb) cb();
+    }
+  }
+  tick();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    typeWriter(document.getElementById("text1"), msg1, 35);
+  }, 900);
+
+  setTimeout(() => {
+    document.getElementById("btn").classList.add("show");
+  }, 4200);
+});
+
+function spawnHearts() {
+  const container = document.getElementById("hearts");
+  const emojis = ["🌸","💗","✨","🌷","💕"];
+  for (let i = 0; i < 8; i++) {
+    setTimeout(() => {
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      h.style.left = (15 + Math.random() * 70) + "%";
+      h.style.bottom = (10 + Math.random() * 20) + "%";
+      h.style.animationDelay = (Math.random() * 0.5) + "s";
+      container.appendChild(h);
+      setTimeout(() => h.remove(), 3500);
+    }, i * 150);
+  }
+}
+
+function openCard() {
+  document.getElementById("overlay").classList.add("show");
+  document.getElementById("card").classList.add("show");
+  spawnHearts();
+  setTimeout(() => {
+    typeWriter(document.getElementById("text2"), msg2, 38);
+  }, 400);
+}
+
+function closeCard() {
+  document.getElementById("overlay").classList.remove("show");
+  document.getElementById("card").classList.remove("show");
+}
+</script>
 </body>
 </html>
